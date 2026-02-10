@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자산제곱 주식 피드</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Pretendard', sans-serif; }
+        .card { border: none; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .stock-tag { background-color: #e7f3ff; color: #007bff; font-weight: bold; padding: 2px 8px; border-radius: 5px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h2 class="text-center mb-5 fw-bold">📈 자산제곱 주식 정보</h2>
+        <div id="feed-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            </div>
+    </div>
+    <script>
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('feed-container');
+                data.reverse().forEach(item => {
+                    const card = `
+                        <div class="col">
+                            <div class="card h-100 p-3">
+                                <div class="mb-2"><span class="stock-tag">#주식정보</span></div>
+                                <h5 class="fw-bold text-primary">${item.date}</h5>
+                                <p class="text-dark" style="white-space: pre-wrap;">${item.content}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            }).catch(e => console.log("데이터를 기다리는 중..."));
+    </script>
+</body>
+</html>
